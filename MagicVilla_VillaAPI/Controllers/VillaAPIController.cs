@@ -4,6 +4,7 @@ using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.Dto;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 
 namespace MagicVilla_VillaAPI.Controllers
@@ -176,7 +177,8 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest();
             }
 
-            var villa = _db.Villas.FirstOrDefault(u => u.Id == id);
+            //use ASNoTracking to stop EntityFrameworkCore from tracking the following villa 
+            var villa = _db.Villas.AsNoTracking().FirstOrDefault(u => u.Id == id);
             VillaDTO villaDTO = new()
             {
                 Amenity = villa.Amenity,
